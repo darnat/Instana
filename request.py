@@ -4,6 +4,7 @@ import time
 
 from . import constants
 from . import routes
+from . import helpers
 from .signature import sign
 from .device import Device
 
@@ -25,11 +26,12 @@ class Request(object):
         Constructor of the request
         """
         self._url = None
-        self._signed_data = None
+        self._signed_data = False
         self._device = None
         self._request = {}
         self._request['method'] = 'GET'
         self._request['data'] = {}
+        self._request['cookies'] = {}
         self._request['headers'] = {}
         self._request['headers'].update(self.default_headers)
         self.set_session(session)
@@ -47,6 +49,14 @@ class Request(object):
         """
         self._session = session
         self.set_CSRF_token(session.CSRF_token())
+        self.set_session_id(session.get_session_id())
+        return self
+
+    def set_session_id(self, session_id: str):
+        """
+        Set session id
+        """
+        self.set_cookie({'sessionid': session_id})
         return self
 
     def set_CSRF_token(self, token: str):
@@ -54,6 +64,7 @@ class Request(object):
         Set CSRFToken
         """
         self.set_data({'_csrftoken': token})
+        self.set_cookie({'csrftoken': token})
         return self
 
     def set_resource(self, resource: str, data={}):
@@ -99,6 +110,16 @@ class Request(object):
             self._request['data'].update(data)
         return self
 
+    def set_cookie(self, cookie: dict={}, override: bool = False):
+        """
+        Set Cookie
+        """
+        if override:
+            self._request['cookies'] = cookie
+        else:
+            self._request['cookies'].update(cookie)
+        return self
+
     def sign_payload(self):
         """
         Set Boolean Sign Payload to true
@@ -110,7 +131,7 @@ class Request(object):
         """
         Generate a UUID for the request
         """
-        self.set_data({'_uuid': str(uuid.uuid4())})
+        self.set_data({'_uuid': helpers.generate_UUID()})
         return self
 
     def sign_data(self):
@@ -139,6 +160,7 @@ class Request(object):
         s = requests.session()
         s.headers.update(self._request['headers'])
         if self._request['method'] == 'POST':
-            return s.post(self._url, self._request['data'])
+            return s.post(self._url, data=self._request['data'],
+                          cookies=self._request['cookies'])
         elif self._request['method'] == 'GET':
-            return s.get(self._url)
+            return s.get(self._url, cookies=self._request['cookies'])
