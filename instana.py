@@ -36,3 +36,18 @@ class Instana(object):
             .send()
         medias = [Media(media) for media in res.json().get('ranked_items')]
         return medias
+
+    def get_location_feed(self, location_id: int):
+        """
+        Get Location Feed
+        """
+        res = Request(self._session)\
+            .set_resource('locationFeed',
+                          {'id': location_id,
+                           'maxID': '',
+                           'rankToken': self._session.get_rank_token()})\
+            .set_method('GET')\
+            .set_device(self._device)\
+            .send()
+        medias = [Media(media) for media in res.json().get('ranked_items')]
+        return medias
