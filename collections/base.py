@@ -1,0 +1,4 @@
+
+
+class BaseCollection(list):
+    pass

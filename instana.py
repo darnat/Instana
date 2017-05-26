@@ -1,6 +1,7 @@
 from .device import Device
 from .request import Request
 from .models.media import Media
+from .collections.medias import Medias
 from . import session as Session
 
 
@@ -34,7 +35,9 @@ class Instana(object):
             .set_method('GET')\
             .set_device(self._device)\
             .send()
-        medias = [Media(media) for media in res.json().get('ranked_items')]
+        medias = Medias([Media(media) for media in res.json().get(('ranked'
+                                                                   '_items'))])
+        medias._next_max_id = res.json().get('next_max_id')
         return medias
 
     def get_location_feed(self, location_id: int):
@@ -49,5 +52,7 @@ class Instana(object):
             .set_method('GET')\
             .set_device(self._device)\
             .send()
-        medias = [Media(media) for media in res.json().get('ranked_items')]
+        medias = Medias([Media(media) for media in res.json().get(('ranked'
+                                                                   '_items'))])
+        medias._next_max_id = res.json().get('next_max_id')
         return medias
