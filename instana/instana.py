@@ -35,6 +35,7 @@ class Instana(object):
             .set_method('GET')\
             .set_device(self._device)\
             .send()
+        print(res.text)
         medias = Medias([Media(media) for media in res.json().get(('ranked'
                                                                    '_items'))])
         medias._next_max_id = res.json().get('next_max_id')

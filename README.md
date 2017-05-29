@@ -4,5 +4,5 @@ Instana
 To use (with caution), simply do::
 
     >>> import instana
-    >>> bot = Instana()
+    >>> bot = instana.Instana()
     >>> bot.login(username, password)
