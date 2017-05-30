@@ -11,10 +11,11 @@ class Media(object):
         """
         Caption Model
         """
-        def __init__(self, json: dict):
+        def __init__(self, json: dict={}):
             """
             Initialize Caption Object
             """
+            json = json if json else {}
             self._pk = json.get('pk')
             self._text = json.get('text')
             self._type = json.get('type')
@@ -29,11 +30,10 @@ class Media(object):
         self._media_type = json.get('media_type')
         self._code = json.get('code')
         self._location = None
-        if json.get('location'):
-            self._location = Location(json.get('location'))
+        self._location = Location(json.get('location', {}))
         self._view_count = json.get('view_count')
         self._user = User(json.get('user'))
         self._like_count = json.get('like_count')
         self._has_liked = json.get('has_liked')
         self._comment_count = json.get('comment_count')
-        self._caption = self.Caption(json.get('caption'))
+        self._caption = self.Caption(json.get('caption', {}))

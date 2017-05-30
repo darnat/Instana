@@ -11,8 +11,10 @@ ROUTES = {
     'userFeed': 'feed/user/{id}/?{maxID}rank_token={rankToken}',
     'timelineFeed': ('feed/timeline/?{maxID}'
                      'rank_token={rankToken}&ranked_content=true'),
-    'tagFeed': 'feed/tag/{tag}/?{maxID}rank_token={rankToken}',
-    'locationFeed': 'feed/location/{id}/?{maxID}rank_token={rankToken}',
+    'tagFeed': ('feed/tag/{tag}/?{maxID}'
+                'rank_token={rankToken}&ranked_content=false'),
+    'locationFeed': ('feed/location/{id}/?{maxID}'
+                     'rank_token={rankToken}&ranked_content=false'),
     'hashtagsSearch': 'tags/search/?count=50&q={query}&rank_token={rankToken}',
     'locationsSearch': ('fbsearch/places/?count=50&query={query}'
                         '&rank_token={rankToken}'),

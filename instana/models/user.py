@@ -16,6 +16,10 @@ class User(object):
                                                         '_profile_picture'))
         self._allow_contacts_sync = json.get('allow_contacts_sync')
         self._fbuid = json.get('fbuid')
+        self._following = json.get('friendship_status', {})\
+                              .get('following', False)
+        self._outgoing_request = json.get('friendship_status', {})\
+                                     .get('outgoing_request', False)
 
     def get_id(self):
         return self._pk

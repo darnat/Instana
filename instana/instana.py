@@ -35,9 +35,7 @@ class Instana(object):
             .set_method('GET')\
             .set_device(self._device)\
             .send()
-        print(res.text)
-        medias = Medias([Media(media) for media in res.json().get(('ranked'
-                                                                   '_items'))])
+        medias = Medias([Media(media) for media in res.json().get('items')])
         medias._next_max_id = res.json().get('next_max_id')
         return medias
 
@@ -53,7 +51,32 @@ class Instana(object):
             .set_method('GET')\
             .set_device(self._device)\
             .send()
-        medias = Medias([Media(media) for media in res.json().get(('ranked'
-                                                                   '_items'))])
+        medias = Medias([Media(media) for media in res.json().get('items')])
         medias._next_max_id = res.json().get('next_max_id')
         return medias
+
+    def like_media(self, media: Media):
+        """
+        Like a Given media object
+        """
+        if media._has_liked is True:
+            raise Exception('Media already liked')
+        return self.like_media_by_id(media._id)
+
+    def like_media_by_id(self, media_id: int):
+        """
+        Like a media by its id
+        """
+        data = {
+            'media_id': media_id,
+            'src': 'profile',
+        }
+        res = Request(self._session)\
+            .set_resource('like', {'id': media_id})\
+            .set_method('POST')\
+            .set_device(self._device)\
+            .generate_UUID()\
+            .set_data(data)\
+            .sign_payload()\
+            .send()
+        return res
