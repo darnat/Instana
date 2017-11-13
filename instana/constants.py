@@ -13,6 +13,7 @@ ROUTES = {
                      'rank_token={rankToken}&ranked_content=true'),
     'tagFeed': ('feed/tag/{tag}/?{maxID}'
                 'rank_token={rankToken}&ranked_content=false'),
+    'recentTags': 'tags/{tag}/media/recent?rank_token={rankToken}',
     'locationFeed': ('feed/location/{id}/?{maxID}'
                      'rank_token={rankToken}&ranked_content=false'),
     'hashtagsSearch': 'tags/search/?count=50&q={query}&rank_token={rankToken}',

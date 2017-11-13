@@ -3,7 +3,7 @@
 __title__ = 'instana'
 __description__ = 'Instagram Private API'
 __url__ = 'https://github.com/darnat/Instana'
-__version__ = '0.1.8.12'
+__version__ = '0.1.8.26'
 __build__ = 0x000001
 __author__ = 'Alexis Darnat'
 __author_email__ = 'alexis.darnat@gmail.com'
